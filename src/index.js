@@ -3,13 +3,11 @@ import { fetchCountries } from './fetchCountries.js'
 import debounce from 'lodash.debounce'
 import Notiflix from 'notiflix'
 
-const DEBOUNCE_DELAY = 300
+const DEBOUNCE_DELAY = 300;
 
-fetchCountries("Poland").then(data => console.log(data))
-
-const input = document.querySelector('#search-box')
-const list = document.querySelector('.country-list')
-const info = document.querySelector('.country-info')
+const input = document.querySelector('#search-box');
+const list = document.querySelector('.country-list');
+const info = document.querySelector('.country-info');
 
 input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
@@ -17,50 +15,47 @@ function onSearch() {
   const name = input.value.trim();
   if (name === '') {
     return (list.innerHTML = ''), (info.innerHTML = '')
-  }
+  };
 
   fetchCountries(name)
     .then(countries => {
-      list.innerHTML = ''
-      info.innerHTML = ''
-      if (countries.length === 1) {
-        list.insertAdjacentHTML('beforeend', renderCountries(countries))
-        info.insertAdjacentHTML('beforeend', renderInfo(countries))
-      } else if (countries.length >= 10) {
-        errorManyCountries()
+      list.innerHTML = '';
+      info.innerHTML = '';
+      if (countries.length >= 10) { 
+        errorManyCountries();
+      } else if (countries.length === 1) {  
+        info.insertAdjacentHTML('beforeend', getInfo(countries));
       } else {
-        list.insertAdjacentHTML('beforeend', renderCountries(countries))
+        list.insertAdjacentHTML('beforeend', getCountries(countries));
       }
     })
     .catch(errorNoName);
 }
 
-function renderCountries(countries) {
-  return countries.map(({ name, flags }) => {
-      return `
-          <li class="country-list__item">
-              <img class="country-list__flag" src="${flags.svg}" alt="flag" width = 25px height = 25px>
+function getCountries(countries) {
+  return countries.map(({ name, flags }) => 
+      `<li class="country-list__item">
+              <img class="country-list__img" src="${flags.svg}" alt="flag" width = 30px height = 20px>
               <h2 class="country-list__name">${name.official}</h2>
-          </li>
-          `
-    }).join('')
+          </li>`
+    ).join('');
 }
 
-function renderInfo(countries) {
-  return countries.map(({ capital, population, languages }) => {
-      return `
-        <ul class="country-info__list">
-            <li class="country-info__item"><p>Capital: ${capital}</p></li>
-            <li class="country-info__item"><p>Population: ${population}</p></li>
-            <li class="country-info__item"><p>Languages: ${Object.values(languages).join(', ')}</p></li>
-        </ul>
-        `
-    }).join('')
+function getInfo(countries) {
+  return countries.map(({ name, flags, capital, population, languages }) => 
+       `<ul class="country-info__list">
+            <li class="country-info__item1">
+            <img class="country-info__img" src="${flags.svg}" alt="flag" width = 35px height = 25px>
+            <h2 class="country-info__name">${name.official}</h2></li>
+            <li class="country-info__item"><p><span>Capital:</span> ${capital}</p></li>
+            <li class="country-info__item"><p><span>Population:</span> ${population}</p></li>
+            <li class="country-info__item"><p><span>Languages:</span> ${Object.values(languages).join(', ')}</p></li>
+        </ul>`).join('');
 }
 
 function errorManyCountries() {
-  Notiflix.Notify.info('Too many matches found. Please enter a more specific name.')}
+  Notiflix.Notify.info('Too many matches found. Please enter a more specific name.')};
 
 function errorNoName() {
-    Notiflix.Notify.failure('Oops, there is no country with that name')
-  }
+  Notiflix.Notify.failure('Oops, there is no country with that name')
+  };

@@ -8,6 +8,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #fafafa;
+  background-image: url(../images/cool-background2.jpg);
   color: #212121;
   line-height: 1.5;
 }
@@ -16,5 +17,45 @@ body {
   font: inherit;
   padding: 8px;
   max-width: 320px;
-  margin-bottom: 16px;
+  margin-bottom: 5px;
+}
+
+.country-list {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.country-list__item {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.country-list__name {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.country-info__list {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.country-info__item1 {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.country-info__name {
+  font-size: 25px;
+  margin: 0;
+}
+
+span {
+  font-weight: 700;
 }
