@@ -57,5 +57,7 @@ function errorManyCountries() {
   Notiflix.Notify.info('Too many matches found. Please enter a more specific name.')};
 
 function errorNoName() {
+  list.innerHTML = '';
+  info.innerHTML = '';
   Notiflix.Notify.failure('Oops, there is no country with that name')
   };
